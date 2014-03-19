@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.uuid;
+package com.opentable.uuid;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.opentable.uuid.NessUUID;
 
 public class TestHexConvert
 {

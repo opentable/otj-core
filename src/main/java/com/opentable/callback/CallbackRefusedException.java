@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.callback;
+package com.opentable.callback;
 
 
 /**
- * Thrown by {@link com.nesscomputing.callback.Callback#call(Object)} to signal that the caller should stop
+ * Thrown by {@link com.opentable.callback.Callback#call(Object)} to signal that the caller should stop
  * processing data (and therefore calling the callback method).
  */
 public class CallbackRefusedException extends Exception

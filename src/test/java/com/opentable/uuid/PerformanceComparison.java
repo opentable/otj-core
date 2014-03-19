@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.uuid;
+package com.opentable.uuid;
 
 import java.util.UUID;
 
 import com.google.caliper.Runner;
 import com.google.caliper.SimpleBenchmark;
+
+import com.opentable.uuid.NessUUID;
 
 public class PerformanceComparison extends SimpleBenchmark
 {

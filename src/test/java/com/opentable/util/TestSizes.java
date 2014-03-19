@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.util;
+package com.opentable.util;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
+
+import com.opentable.util.Sizes;
 
 public class TestSizes
 {

@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.uuid;
+package com.opentable.uuid;
 
 import java.util.UUID;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.opentable.uuid.NessUUID;
 
 public class TestNessUUID {
     private final String uuid = "6f32f693-c7b5-11e1-afa7-88af2abc9a66";

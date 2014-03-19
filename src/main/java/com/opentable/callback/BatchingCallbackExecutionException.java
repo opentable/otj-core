@@ -13,17 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.callback;
+package com.opentable.callback;
 
-public interface Callback<T>
+public class BatchingCallbackExecutionException extends RuntimeException
 {
-    /**
-     * Process a single item.
-     *
-     * An implementation of this interface can throw {@link CallbackRefusedException} to signal the caller
-     * that it should stop executing the callback.
-     *
-     * @throws Exception
-     */
-    void call(T item) throws Exception;
+    private static final long serialVersionUID = 1L;
 }

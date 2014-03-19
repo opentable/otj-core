@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.callback;
+package com.opentable.callback;
 
-import static com.nesscomputing.callback.TransformedCallback.transform;
+import static com.opentable.callback.TransformedCallback.transform;
 import static org.junit.Assert.assertEquals;
 
 import javax.annotation.Nullable;
@@ -25,6 +25,9 @@ import com.google.common.base.Functions;
 import com.google.common.collect.Lists;
 
 import org.junit.Test;
+
+import com.opentable.callback.Callback;
+import com.opentable.callback.CallbackCollector;
 
 public class TestTransformingCallback
 {

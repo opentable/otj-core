@@ -4,29 +4,30 @@
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.nesscomputing</groupId>
-    <artifactId>ness-oss-parent</artifactId>
-    <version>29</version>
+    <groupId>com.opentable</groupId>
+    <artifactId>otj-parent</artifactId>
+    <version>1-SNAPSHOT</version>
   </parent>
 
   <scm>
-    <connection>scm:git:git://github.com/NessComputing/components-ness-core.git</connection>
-    <developerConnection>scm:git:git@github.com:NessComputing/components-ness-core.git</developerConnection>
-    <url>http://github.com/NessComputing/components-ness-core</url>
+    <connection>scm:git:git://github.com/opentable/otj-core.git</connection>
+    <developerConnection>scm:git:git@github.com:opentable/otj-core.git</developerConnection>
+    <url>http://github.com/opentable/otj-core</url>
     <tag>HEAD</tag>
   </scm>
 
-  <groupId>com.nesscomputing.components</groupId>
-  <artifactId>ness-core</artifactId>
-  <name>ness-core</name>
-  <version>1.9.2-SNAPSHOT</version>
+  <groupId>com.opentable.components</groupId>
+  <artifactId>otj-core</artifactId>
+  <name>otj-core</name>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <description>Ness base types component</description>
+  <description>OpenTable base types component</description>
 
   <dependencies>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.callback;
+package com.opentable.callback;
 
 import static com.google.common.collect.ImmutableList.of;
 import static org.junit.Assert.assertEquals;
@@ -27,6 +27,12 @@ import java.util.concurrent.Executors;
 import com.google.common.util.concurrent.MoreExecutors;
 
 import org.junit.Test;
+
+import com.opentable.callback.BatchingCallback;
+import com.opentable.callback.BatchingCallbackExecutionException;
+import com.opentable.callback.Callback;
+import com.opentable.callback.CallbackCollector;
+import com.opentable.callback.CallbackRefusedException;
 
 public class TestExecutorBatchingCallback
 {

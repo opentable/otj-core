@@ -13,10 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.callback;
+package com.opentable.callback;
 
-public class BatchingCallbackExecutionException extends RuntimeException
-{
-    private static final long serialVersionUID = 1L;
+import java.util.concurrent.atomic.AtomicLong;
 
+import javax.annotation.concurrent.ThreadSafe;
+
+/**
+ * A Callback that throws away all objects but counts them as it does so.
+ */
+@ThreadSafe
+public class CountingCallback implements Callback<Object> {
+
+    private final AtomicLong count = new AtomicLong();
+
+    public long getCount() {
+        return count.get();
+    }
+
+    @Override
+    public void call(Object item) throws Exception {
+        count.incrementAndGet();
+    }
 }

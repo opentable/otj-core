@@ -24,9 +24,13 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class ExecutorBatchingCallback<T> extends BatchingCallback<T>
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExecutorBatchingCallback.class);
+
     ExecutorBatchingCallback(int size, ExecutorService executor, Callback<? super List<T>> out, boolean failFast)
     {
         super(size, new ExecutorCallback<>(executor, out, failFast));
@@ -72,6 +76,7 @@ class ExecutorBatchingCallback<T> extends BatchingCallback<T>
                 try {
                     f.get();
                 } catch (ExecutionException e) {
+                    LOGGER.warn("Callback failed", e);
                     exceptions.addSuppressed(e.getCause());
 
                     if (failFast) {

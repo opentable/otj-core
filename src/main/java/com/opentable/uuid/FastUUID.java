@@ -32,12 +32,12 @@ import com.google.common.base.Throwables;
  * <p> The version in the JDK uses {@link String#split(String)}
  * which does not compile the regular expression that is used for splitting
  * the UUID string and results in the allocation of multiple strings in a
- * string array. We decided to write {@link NessUUID} when we ran into
+ * string array. We decided to write {@link FastUUID} when we ran into
  * performance issues with the garbage produced by the JDK class.
  *
  */
-public final class NessUUID {
-    private NessUUID() {}
+public final class FastUUID {
+    private FastUUID() {}
 
     private static final MethodHandle STRING_FACTORY;
 

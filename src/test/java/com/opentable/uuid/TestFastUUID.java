@@ -20,9 +20,9 @@ import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.opentable.uuid.NessUUID;
+import com.opentable.uuid.FastUUID;
 
-public class TestNessUUID {
+public class TestFastUUID {
     private final String uuid = "6f32f693-c7b5-11e1-afa7-88af2abc9a66";
     private final String caseSensitivity = "Dd000000-0000-0000-0000-000000000000";
     private final String overflow = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF";
@@ -42,15 +42,15 @@ public class TestNessUUID {
     @Test
     public void testBasic()
     {
-        Assert.assertEquals(UUID.fromString(uuid), NessUUID.fromString(uuid));
-        Assert.assertEquals(UUID.fromString(caseSensitivity), NessUUID.fromString(caseSensitivity));
-        Assert.assertEquals(UUID.fromString(overflow), NessUUID.fromString(overflow));
-        Assert.assertEquals(UUID.fromString(zero), NessUUID.fromString(zero));
+        Assert.assertEquals(UUID.fromString(uuid), FastUUID.fromString(uuid));
+        Assert.assertEquals(UUID.fromString(caseSensitivity), FastUUID.fromString(caseSensitivity));
+        Assert.assertEquals(UUID.fromString(overflow), FastUUID.fromString(overflow));
+        Assert.assertEquals(UUID.fromString(zero), FastUUID.fromString(zero));
     }
 
     @Test
     public void testLength() {
-        final UUID uuid = NessUUID.fromString(badLength);
+        final UUID uuid = FastUUID.fromString(badLength);
         Assert.assertEquals(0, uuid.getMostSignificantBits());
         Assert.assertEquals(0, uuid.getLeastSignificantBits());
     }
@@ -82,7 +82,7 @@ public class TestNessUUID {
                 "00000000-0000-0000-0000-000000000000"
         };
         for (String uuid : uuids) {
-            Assert.assertEquals(uuid, NessUUID.toString(UUID.fromString(uuid)));
+            Assert.assertEquals(uuid, FastUUID.toString(UUID.fromString(uuid)));
         }
     }
 
@@ -95,7 +95,7 @@ public class TestNessUUID {
             for (long lsb = msb; lsb < msb + 10; lsb++)
             {
                 UUID uuid = new UUID(msb * PRIME, lsb * PRIME * PRIME);
-                Assert.assertEquals(uuid.toString(), NessUUID.toString(uuid));
+                Assert.assertEquals(uuid.toString(), FastUUID.toString(uuid));
             }
         }
     }
@@ -103,7 +103,7 @@ public class TestNessUUID {
     // makes testing multiple exceptions less verbose
     private void testEx(String str) {
         try {
-            NessUUID.fromString(hyphen1);
+            FastUUID.fromString(hyphen1);
         } catch (IllegalArgumentException e) {
             return;
         }
@@ -119,7 +119,7 @@ public class TestNessUUID {
      */
     @Test
     public void test_fromString() {
-        UUID actual = NessUUID.fromString("f81d4fae-7dec-11d0-a765-00a0c91e6bf6");
+        UUID actual = FastUUID.fromString("f81d4fae-7dec-11d0-a765-00a0c91e6bf6");
         UUID expected = new UUID(0xf81d4fae7dec11d0L, 0xa76500a0c91e6bf6L);
         Assert.assertEquals(expected, actual);
 
@@ -129,7 +129,7 @@ public class TestNessUUID {
         Assert.assertEquals(10085, actual.clockSequence());
         Assert.assertEquals(690568981494L, actual.node());
 
-        actual = NessUUID.fromString("00000000-0000-1000-8000-000000000000");
+        actual = FastUUID.fromString("00000000-0000-1000-8000-000000000000");
         expected = new UUID(0x0000000000001000L, 0x8000000000000000L);
         Assert.assertEquals(expected, actual);
 
@@ -140,32 +140,32 @@ public class TestNessUUID {
         Assert.assertEquals(0L, actual.node());
 
         try {
-            NessUUID.fromString(null);
+            FastUUID.fromString(null);
             Assert.fail("No NPE");
         } catch (NullPointerException e) {}
 
         try {
-            NessUUID.fromString("");
+            FastUUID.fromString("");
             Assert.fail("No IAE");
         } catch (IllegalArgumentException e) {}
 
         try {
-            NessUUID.fromString("f81d4fae_7dec-11d0-a765-00a0c91e6bf6");
+            FastUUID.fromString("f81d4fae_7dec-11d0-a765-00a0c91e6bf6");
             Assert.fail("No IAE");
         } catch (IllegalArgumentException e) {}
 
         try {
-            NessUUID.fromString("f81d4fae-7dec_11d0-a765-00a0c91e6bf6");
+            FastUUID.fromString("f81d4fae-7dec_11d0-a765-00a0c91e6bf6");
             Assert.fail("No IAE");
         } catch (IllegalArgumentException e) {}
 
         try {
-            NessUUID.fromString("f81d4fae-7dec-11d0_a765-00a0c91e6bf6");
+            FastUUID.fromString("f81d4fae-7dec-11d0_a765-00a0c91e6bf6");
             Assert.fail("No IAE");
         } catch (IllegalArgumentException e) {}
 
         try {
-            NessUUID.fromString("f81d4fae-7dec-11d0-a765_00a0c91e6bf6");
+            FastUUID.fromString("f81d4fae-7dec-11d0-a765_00a0c91e6bf6");
             Assert.fail("No IAE");
         } catch (IllegalArgumentException e) {}
     }
@@ -176,71 +176,71 @@ public class TestNessUUID {
     @Test
     public void test_fromString_LString_Exception() {
 
-        UUID uuid = NessUUID.fromString("0-0-0-0-0");
+        UUID uuid = FastUUID.fromString("0-0-0-0-0");
 
         try {
-            uuid = NessUUID.fromString("0-0-0-0-");
+            uuid = FastUUID.fromString("0-0-0-0-");
             Assert.fail("should throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // expected
         }
 
         try {
-            uuid = NessUUID.fromString("-0-0-0-0-0");
+            uuid = FastUUID.fromString("-0-0-0-0-0");
             Assert.fail("should throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // expected
         }
 
         try {
-            uuid = NessUUID.fromString("-0-0-0-0");
+            uuid = FastUUID.fromString("-0-0-0-0");
             Assert.fail("should throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // expected
         }
 
         try {
-            uuid = NessUUID.fromString("-0-0-0-");
+            uuid = FastUUID.fromString("-0-0-0-");
             Assert.fail("should throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // expected
         }
 
         try {
-            uuid = NessUUID.fromString("0--0-0-0");
+            uuid = FastUUID.fromString("0--0-0-0");
             Assert.fail("should throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // expected
         }
 
         try {
-            uuid = NessUUID.fromString("0-0-0-0-");
+            uuid = FastUUID.fromString("0-0-0-0-");
             Assert.fail("should throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // expected
         }
 
         try {
-            uuid = NessUUID.fromString("-1-0-0-0-0");
+            uuid = FastUUID.fromString("-1-0-0-0-0");
             Assert.fail("should throw IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             // expected
         }
 
-        uuid = NessUUID.fromString("123456789-0-0-0-0");
+        uuid = FastUUID.fromString("123456789-0-0-0-0");
         Assert.assertEquals(0x2345678900000000L, uuid.getMostSignificantBits());
         Assert.assertEquals(0x0L, uuid.getLeastSignificantBits());
 
-        uuid = NessUUID.fromString("111123456789-0-0-0-0");
+        uuid = FastUUID.fromString("111123456789-0-0-0-0");
         Assert.assertEquals(0x2345678900000000L, uuid.getMostSignificantBits());
         Assert.assertEquals(0x0L, uuid.getLeastSignificantBits());
 
-        uuid = NessUUID.fromString("7fffffffffffffff-0-0-0-0");
+        uuid = FastUUID.fromString("7fffffffffffffff-0-0-0-0");
         Assert.assertEquals(0xffffffff00000000L, uuid.getMostSignificantBits());
         Assert.assertEquals(0x0L, uuid.getLeastSignificantBits());
 
         try {
-            uuid = NessUUID.fromString("80000000000000000-0-0-0-0");
+            uuid = FastUUID.fromString("80000000000000000-0-0-0-0");
             Assert.fail("should throw IllegalArgumentException that contains NumberFormatException");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(e.getCause() != null && e.getCause() instanceof NumberFormatException);
@@ -251,19 +251,19 @@ public class TestNessUUID {
         Assert.assertEquals(0xffffffffffffffffL, uuid.getMostSignificantBits());
         Assert.assertEquals(0x0L, uuid.getLeastSignificantBits());
 
-        uuid = NessUUID.fromString("0-0-0-7fffffffffffffff-7fffffffffffffff");
+        uuid = FastUUID.fromString("0-0-0-7fffffffffffffff-7fffffffffffffff");
         Assert.assertEquals(0x0L, uuid.getMostSignificantBits());
         Assert.assertEquals(0xffffffffffffffffL, uuid.getLeastSignificantBits());
 
         try {
-            uuid = NessUUID.fromString("0-0-0-80000000000000000-0");
+            uuid = FastUUID.fromString("0-0-0-80000000000000000-0");
             Assert.fail("should throw IllegalArgumentException that contains NumberFormatException");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(e.getCause() != null && e.getCause() instanceof NumberFormatException);
         }
 
         try {
-            uuid = NessUUID.fromString("0-0-0-0-80000000000000000");
+            uuid = FastUUID.fromString("0-0-0-0-80000000000000000");
             Assert.fail("should throw IllegalArgumentException that contains NumberFormatException");
         } catch (IllegalArgumentException e) {
             Assert.assertTrue(e.getCause() != null && e.getCause() instanceof NumberFormatException);
@@ -273,11 +273,11 @@ public class TestNessUUID {
     @Test
     public void test_toString() {
         UUID uuid = new UUID(0xf81d4fae7dec11d0L, 0xa76500a0c91e6bf6L);
-        String actual = NessUUID.toString(uuid);
+        String actual = FastUUID.toString(uuid);
         Assert.assertEquals("f81d4fae-7dec-11d0-a765-00a0c91e6bf6", actual);
 
         uuid = new UUID(0x0000000000001000L, 0x8000000000000000L);
-        actual = NessUUID.toString(uuid);
+        actual = FastUUID.toString(uuid);
         Assert.assertEquals("00000000-0000-1000-8000-000000000000", actual);
     }
 
@@ -290,7 +290,7 @@ public class TestNessUUID {
 
     private void doDecodeTest(String value, long expected)
     {
-        long result = NessUUID.decode(value, new int [] { value.indexOf('-'), value.lastIndexOf('-') }, 0);
+        long result = FastUUID.decode(value, new int [] { value.indexOf('-'), value.lastIndexOf('-') }, 0);
         Assert.assertEquals(expected, result);
     }
 }

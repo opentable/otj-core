@@ -20,7 +20,7 @@ import java.util.UUID;
 import com.google.caliper.Runner;
 import com.google.caliper.SimpleBenchmark;
 
-import com.opentable.uuid.NessUUID;
+import com.opentable.uuid.FastUUID;
 
 public class PerformanceComparison extends SimpleBenchmark
 {
@@ -60,7 +60,7 @@ public class PerformanceComparison extends SimpleBenchmark
         long accum = 0;
         for (int i = 0; i < reps; i++)
         {
-            accum += NessUUID.fromString(testStrings[i % N_UUIDS]).getMostSignificantBits();
+            accum += FastUUID.fromString(testStrings[i % N_UUIDS]).getMostSignificantBits();
         }
         return accum;
     }
@@ -81,7 +81,7 @@ public class PerformanceComparison extends SimpleBenchmark
         long accum = 0;
         for (int i = 0; i < reps; i++)
         {
-            accum += NessUUID.toString(testUuids[i % N_UUIDS]).charAt(0);
+            accum += FastUUID.toString(testUuids[i % N_UUIDS]).charAt(0);
         }
         return accum;
     }

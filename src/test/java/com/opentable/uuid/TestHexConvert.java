@@ -18,7 +18,7 @@ package com.opentable.uuid;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.opentable.uuid.NessUUID;
+import com.opentable.uuid.FastUUID;
 
 public class TestHexConvert
 {
@@ -32,7 +32,7 @@ public class TestHexConvert
     public void testNumChars()
     {
         for (int i = 0; i < numChars.length; i++) {
-            int res = NessUUID.getNibbleFromChar(numChars[i]);
+            int res = FastUUID.getNibbleFromChar(numChars[i]);
             Assert.assertEquals(i, res);
         }
     }
@@ -41,7 +41,7 @@ public class TestHexConvert
     public void testAlphaLowChars()
     {
         for (int i = 0; i < alphaLowChars.length; i++) {
-            int res = NessUUID.getNibbleFromChar(alphaLowChars[i]);
+            int res = FastUUID.getNibbleFromChar(alphaLowChars[i]);
             Assert.assertEquals(i + 10, res);
         }
     }
@@ -50,7 +50,7 @@ public class TestHexConvert
     public void testAlphaHiChars()
     {
         for (int i = 0; i < alphaHiChars.length; i++) {
-            int res = NessUUID.getNibbleFromChar(alphaHiChars[i]);
+            int res = FastUUID.getNibbleFromChar(alphaHiChars[i]);
             Assert.assertEquals(i + 10, res);
         }
     }
@@ -60,7 +60,7 @@ public class TestHexConvert
     {
         for (int i = 0; i < illegalChars.length; i++) {
             try {
-                NessUUID.getNibbleFromChar(illegalChars[i]);
+                FastUUID.getNibbleFromChar(illegalChars[i]);
                 Assert.fail(illegalChars[i] + " must not be accepted!");
             }
             catch (IllegalArgumentException iae) {

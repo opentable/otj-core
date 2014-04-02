@@ -9,7 +9,9 @@ import java.nio.file.Files;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.kitei.testing.lessio.AllowTmpDirAccess;
 
+@AllowTmpDirAccess
 public class DeleteRecursivelyTest
 {
     @Rule

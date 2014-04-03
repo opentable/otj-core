@@ -15,6 +15,7 @@
  */
 package com.opentable.callback;
 
+@FunctionalInterface
 public interface Callback<T>
 {
     /**

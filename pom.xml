@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.opentable</groupId>
     <artifactId>otj-parent</artifactId>
-    <version>6</version>
+    <version>22</version>
   </parent>
 
   <scm>
@@ -15,6 +15,10 @@
     <url>http://github.com/opentable/otj-core</url>
     <tag>HEAD</tag>
   </scm>
+
+  <properties>
+    <ot.build.allow-joda-time>true</ot.build.allow-joda-time> <!-- used by Caliper -->
+  </properties>
 
   <groupId>com.opentable.components</groupId>
   <artifactId>otj-core</artifactId>
@@ -30,12 +34,6 @@
     </dependency>
 
     <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <optional>true</optional>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <optional>true</optional>
@@ -46,7 +44,19 @@
       <artifactId>caliper</artifactId>
       <version>0.5-rc1</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>jsr305</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>annotations</artifactId>
+    </dependency>
+
 
     <dependency>
       <groupId>junit</groupId>
@@ -65,5 +75,6 @@
       <artifactId>guice</artifactId>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 </project>

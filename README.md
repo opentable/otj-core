@@ -1,6 +1,8 @@
 OpenTable Core Types
 ====================
 
+[![Build Status](https://travis-ci.org/opentable/otj-core.svg)](https://travis-ci.org/opentable/otj-core)
+
 Component Charter
 -----------------
 

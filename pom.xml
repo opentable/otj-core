@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.opentable</groupId>
-    <artifactId>otj-parent</artifactId>
-    <version>22</version>
+    <artifactId>otj-parent-oss</artifactId>
+    <version>23-SNAPSHOT</version>
   </parent>
 
   <scm>
@@ -15,10 +15,6 @@
     <url>http://github.com/opentable/otj-core</url>
     <tag>HEAD</tag>
   </scm>
-
-  <properties>
-    <ot.build.allow-joda-time>true</ot.build.allow-joda-time> <!-- used by Caliper -->
-  </properties>
 
   <groupId>com.opentable.components</groupId>
   <artifactId>otj-core</artifactId>
@@ -62,6 +58,5 @@
       <artifactId>guice</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 </project>

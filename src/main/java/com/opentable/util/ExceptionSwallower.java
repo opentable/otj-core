@@ -35,6 +35,8 @@ public class ExceptionSwallower
                 LOGGER.error("Uncaught exception swallowed", t);
                 if (t instanceof Error) {
                     throw t;
+                } else if (t instanceof InterruptedException) {
+                    Thread.currentThread().interrupt();
                 }
             }
         };

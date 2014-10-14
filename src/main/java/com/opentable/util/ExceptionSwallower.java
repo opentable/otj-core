@@ -13,8 +13,12 @@
  */
 package com.opentable.util;
 
+import java.util.function.Consumer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.opentable.function.ThrowingConsumer;
 
 /**
  * Transformations for various functional interfaces to modify exceptional behavior.
@@ -35,6 +39,25 @@ public class ExceptionSwallower
                 LOGGER.error("Uncaught exception swallowed", t);
                 if (t instanceof Error) {
                     throw t;
+                } else if (t instanceof InterruptedException) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        };
+    }
+
+    /**
+     * Transform a Consumer to log and then swallow any thrown exceptions.
+     */
+    public static <T> Consumer<T> swallowExceptions(ThrowingConsumer<T> in)
+    {
+        return (item) -> {
+            try {
+                in.accept(item);
+            } catch (Throwable t) {
+                LOGGER.error("Uncaught exception swallowed", t);
+                if (t instanceof Error) {
+                    throw (Error) t;
                 } else if (t instanceof InterruptedException) {
                     Thread.currentThread().interrupt();
                 }

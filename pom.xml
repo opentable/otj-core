@@ -19,7 +19,7 @@
   <parent>
     <groupId>com.opentable</groupId>
     <artifactId>otj-parent-oss</artifactId>
-    <version>23</version>
+    <version>25</version>
   </parent>
 
   <scm>
@@ -33,7 +33,6 @@
   <artifactId>otj-core</artifactId>
   <name>otj-core</name>
   <version>1.3.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
   <description>OpenTable base types component</description>
 
   <dependencies>

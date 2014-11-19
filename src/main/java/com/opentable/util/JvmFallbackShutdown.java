@@ -13,6 +13,7 @@
  */
 package com.opentable.util;
 
+import java.lang.Thread.State;
 import java.time.Duration;
 
 import com.google.common.base.Joiner;
@@ -50,9 +51,12 @@ public class JvmFallbackShutdown {
             Thread.currentThread().interrupt();
             LOG.error("in terminate thread", e);
         }
-        Thread.getAllStackTraces().entrySet().stream().filter(e -> !e.getKey().isDaemon()).forEach(e -> {
-            final Thread t = e.getKey();
-            LOG.error("Thread {} {} '{}': \n{}\n", t.getId(), t.getState(), t.getName(), Joiner.on('\n').join(e.getValue()));
+        Thread.getAllStackTraces().entrySet().stream()
+            .filter(e -> !e.getKey().isDaemon())
+            .filter(e -> e.getKey().getState() != State.TERMINATED)
+            .forEach(e -> {
+                final Thread t = e.getKey();
+                LOG.error("Thread {} {} '{}': \n{}\n", t.getId(), t.getState(), t.getName(), Joiner.on('\n').join(e.getValue()));
         });
         LOG.error("===UNCLEAN SHUTDOWN===");
         System.exit(254);

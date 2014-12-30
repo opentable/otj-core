@@ -13,15 +13,16 @@
  */
 package com.opentable.util;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+
 /**
- * Utility functions to help alternal values stay in optionals when evaluating the absent case.
+ * Utility functions to help alternate values stay in optionals when evaluating the absent case.
  */
 public class Optionals {
     /**
@@ -68,10 +69,21 @@ public class Optionals {
         return first.isPresent() ? first : second.get();
     }
 
+    /**
+     * When wrapped around a Map, allows get() operations to produce an Optional rather than a Nullable
+     * @param <K> type of map keys
+     * @param <V> type of map values
+     */
+    @FunctionalInterface
     public interface MapAdapter<K,V> {
         public Optional<V> getOpt(K key);
     }
 
+    /**
+     * Produces a MapAdapter for the given Map.
+     * @param <K> type of map keys
+     * @param <V> type of map values
+     */
     public static <K,V> MapAdapter<K,V> mapAdapter(final Map<K,V> map) {
         return key -> Optional.ofNullable(map.get(key));
     }

@@ -93,7 +93,7 @@ public class Callbacks {
     {
         private final Iterable<Callback<T>> callbacks;
 
-        public ChainCallback(Iterable<Callback<T>> callbacks)
+        ChainCallback(Iterable<Callback<T>> callbacks)
         {
             this.callbacks = callbacks;
         }

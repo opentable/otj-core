@@ -76,7 +76,7 @@ public class Optionals {
      */
     @FunctionalInterface
     public interface MapAdapter<K,V> {
-        public Optional<V> getOpt(K key);
+        Optional<V> getOpt(K key);
     }
 
     /**

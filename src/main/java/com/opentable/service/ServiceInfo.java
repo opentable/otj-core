@@ -15,16 +15,10 @@
 package com.opentable.service;
 
 /**
- * The {@link ServiceInfo} class is intended for you to declare as a Spring Bean in your application.
+ * The {@link ServiceInfo} interface is intended for you to declare as a Spring Bean in your application.
  * It can be consumed by our components in order to create things like metric namespaces given information about your
- * service.
+ * service.  You are expected to implement your own implementations of this interface when defining your Bean.
  */
-public class ServiceInfo {
-    private final String name;
-    public ServiceInfo(final String name) {
-        this.name = name;
-    }
-    public String getName() {
-        return name;
-    }
+public interface ServiceInfo {
+    String getName();
 }

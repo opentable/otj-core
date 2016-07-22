@@ -23,9 +23,9 @@
   </parent>
 
   <scm>
-    <connection>scm:git:git://github.com/opentable/otj-core.git</connection>
-    <developerConnection>scm:git:git@github.com:opentable/otj-core.git</developerConnection>
-    <url>http://github.com/opentable/otj-core</url>
+    <connection>scm:git:git://github.com/opentable/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:git@github.com:opentable/${project.artifactId}.git</developerConnection>
+    <url>http://github.com/opentable/${project.artifactId}</url>
     <tag>HEAD</tag>
   </scm>
 

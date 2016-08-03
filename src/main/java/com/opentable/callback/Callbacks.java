@@ -15,10 +15,15 @@ package com.opentable.callback;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Callback helper methods
  */
 public class Callbacks {
+    private static final Logger LOG = LoggerFactory.getLogger(Callbacks.class);
+
     private Callbacks() { }
 
     /**
@@ -41,6 +46,7 @@ public class Callbacks {
             try {
                 callback.call(item);
             } catch (CallbackRefusedException e) {
+                LOG.trace("callback refused", e);
                 return;
             }
         }
@@ -87,7 +93,7 @@ public class Callbacks {
     {
         private final Iterable<Callback<T>> callbacks;
 
-        public ChainCallback(Iterable<Callback<T>> callbacks)
+        ChainCallback(Iterable<Callback<T>> callbacks)
         {
             this.callbacks = callbacks;
         }

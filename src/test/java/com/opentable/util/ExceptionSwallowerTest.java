@@ -13,6 +13,9 @@
  */
 package com.opentable.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import org.junit.Test;
 
 public class ExceptionSwallowerTest {
@@ -24,5 +27,15 @@ public class ExceptionSwallowerTest {
     @Test
     public void testConsumeConsumer() {
         ExceptionSwallower.swallowExceptions((t) -> { throw new RuntimeException("wat"); }).accept(null);
+    }
+
+    @Test
+    public void testFunctionSuccess() {
+        assertEquals("wat", ExceptionSwallower.forFunction(f -> "wat").apply(3));
+    }
+
+    @Test
+    public void testFunctionFail() {
+        assertNull(ExceptionSwallower.forFunction(f -> { throw new RuntimeException("wat"); }).apply(3));
     }
 }

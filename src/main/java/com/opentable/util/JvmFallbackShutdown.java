@@ -15,6 +15,7 @@ package com.opentable.util;
 
 import java.lang.Thread.State;
 import java.time.Duration;
+import java.util.Arrays;
 
 import com.google.common.base.Joiner;
 
@@ -36,14 +37,22 @@ public class JvmFallbackShutdown {
      * @param waitTime how long to wait
      */
     public static void fallbackTerminate(Duration waitTime) {
-        Thread fallbackTerminateThread = new Thread(() -> fallbackKill(waitTime));
+        Throwable source = new Throwable();
+        source.fillInStackTrace();
+
+        if (inTests(source)) {
+            LOG.warn("Asked to register in a test environment.  You probably don't want this.");
+            return;
+        }
+
+        Thread fallbackTerminateThread = new Thread(() -> fallbackKill(waitTime, source));
         fallbackTerminateThread.setName("T-1000");
         fallbackTerminateThread.setDaemon(true);
         fallbackTerminateThread.start();
     }
 
     @SuppressFBWarnings("DM_EXIT")
-    private static void fallbackKill(Duration waitTime) {
+    private static void fallbackKill(Duration waitTime, Throwable source) {
         LOG.info("Service problem detected, fallback kill in {}...", waitTime.toString().substring(2));
         try {
             Thread.sleep(waitTime.toMillis());
@@ -51,6 +60,9 @@ public class JvmFallbackShutdown {
             Thread.currentThread().interrupt();
             LOG.error("in terminate thread", e);
         }
+
+        LOG.error("Fallback kill timeout expired.  Logging termination source followed by all thread stacks", source);
+
         Thread.getAllStackTraces().entrySet().stream()
             .filter(e -> !e.getKey().isDaemon())
             .filter(e -> e.getKey().getState() != State.TERMINATED)
@@ -59,6 +71,13 @@ public class JvmFallbackShutdown {
                 LOG.error("Thread {} {} '{}': \n{}\n", t.getId(), t.getState(), t.getName(), Joiner.on('\n').join(e.getValue()));
         });
         LOG.error("===UNCLEAN SHUTDOWN===");
+
         System.exit(254);
+    }
+
+    static boolean inTests(Throwable source) {
+        return Arrays.stream(source.getStackTrace())
+            .anyMatch(e -> e.getClassName().contains("surefire.booter.ForkedBooter") ||
+                           e.getClassName().contains("org.junit"));
     }
 }

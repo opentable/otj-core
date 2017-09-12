@@ -146,7 +146,8 @@ public final class FastUUID {
         try {
             return (String) STRING_FACTORY.invokeExact(uuidChars);
         } catch (Throwable e) {
-            throw Throwables.propagate(e);
+            Throwables.throwIfUnchecked(e);
+            throw new RuntimeException(e);
         }
     }
 

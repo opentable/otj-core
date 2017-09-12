@@ -140,9 +140,9 @@ public class TestExecutorBatchingCallback {
                     throw new IllegalStateException("boom!");
                 }
             };
-            BatchingCallback<String> batcher = BatchingCallback.batchInto(2, executor, out, true);
-            batcher.call("a");
-            batcher.close();
+            try (BatchingCallback<String> batcher = BatchingCallback.batchInto(2, executor, out, true)) {
+                batcher.call("a");
+            }
         } finally {
             executor.shutdownNow();
         }

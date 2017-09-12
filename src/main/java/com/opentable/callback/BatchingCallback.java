@@ -122,8 +122,8 @@ public class BatchingCallback<T> implements Callback<T>, Closeable
             try {
                 out.call(outList);
             } catch (final Exception e) {
-                Throwables.propagateIfInstanceOf(e, CallbackRefusedException.class);
-                throw Throwables.propagate(e);
+                Throwables.propagateIfPossible(e, CallbackRefusedException.class);
+                throw new RuntimeException(e);
             }
         }
     }

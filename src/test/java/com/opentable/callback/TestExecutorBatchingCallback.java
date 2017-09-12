@@ -26,20 +26,15 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 import org.junit.Test;
 
-import com.opentable.callback.BatchingCallback;
-import com.opentable.callback.BatchingCallbackExecutionException;
-import com.opentable.callback.Callback;
-import com.opentable.callback.CallbackCollector;
-import com.opentable.callback.CallbackRefusedException;
+public class TestExecutorBatchingCallback {
 
-public class TestExecutorBatchingCallback
-{
+    private final ExecutorService directExecutor = MoreExecutors.newDirectExecutorService();
+
     @Test
     public void testGood() throws Exception
     {
-        ExecutorService executor = MoreExecutors.sameThreadExecutor();
         CallbackCollector<List<String>> out = new CallbackCollector<>();
-        BatchingCallback<String> batcher = BatchingCallback.batchInto(2, executor, out, false);
+        BatchingCallback<String> batcher = BatchingCallback.batchInto(2, directExecutor, out, false);
 
         batcher.call("a");
         batcher.call("b");
@@ -58,7 +53,6 @@ public class TestExecutorBatchingCallback
         final Exception e1 = new Exception();
         final Exception e2 = new Exception();
 
-        ExecutorService executor = MoreExecutors.sameThreadExecutor();
         Callback<List<String>> out = new Callback<List<String>>() {
             @Override
             public void call(List<String> item) throws Exception
@@ -74,7 +68,7 @@ public class TestExecutorBatchingCallback
             }
         };
 
-        BatchingCallback<String> batcher = BatchingCallback.batchInto(2, executor, out, false);
+        BatchingCallback<String> batcher = BatchingCallback.batchInto(2, directExecutor, out, false);
 
         batcher.call("a");
         batcher.call("b");
@@ -98,7 +92,6 @@ public class TestExecutorBatchingCallback
         final Exception e1 = new Exception();
         final Exception e2 = new Exception();
 
-        ExecutorService executor = MoreExecutors.sameThreadExecutor();
         Callback<List<String>> out = new Callback<List<String>>() {
             @Override
             public void call(List<String> item) throws Exception
@@ -114,7 +107,7 @@ public class TestExecutorBatchingCallback
             }
         };
 
-        BatchingCallback<String> batcher = BatchingCallback.batchInto(2, executor, out, true);
+        BatchingCallback<String> batcher = BatchingCallback.batchInto(2, directExecutor, out, true);
 
         batcher.call("a");
         batcher.call("b");

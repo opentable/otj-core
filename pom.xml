@@ -19,7 +19,7 @@
   <parent>
     <groupId>com.opentable</groupId>
     <artifactId>otj-parent-oss</artifactId>
-    <version>107</version>
+    <version>154</version>
   </parent>
 
   <scm>
@@ -43,7 +43,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>23.0</version>
+      <version>23.5-jre</version>
       <optional>true</optional>
     </dependency>
 

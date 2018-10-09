@@ -35,10 +35,20 @@ import java.util.UUID;
 public final class FastUUID {
     private FastUUID() {}
 
+    /**
+     * Create a {@link UUID} from a string
+     * @param str the UUID in string form
+     * @return a UUID object
+     */
     public static UUID fromString(String str) {
         return UUID.fromString(str);
     }
 
+    /**
+     * Convert a UUID to a string.
+     * @param uuid the UUID to convert into string
+     * @return the string form of a UUID
+     */
     public static String toString(UUID uuid)
     {
         return uuid.toString();

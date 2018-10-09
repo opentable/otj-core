@@ -25,10 +25,23 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A callback that puts submitted items into a batch. When the batch is committed it is processed via the supplied callback via the provided executor.
+ * A commit happens when the number of items reaches the given batch size, or when commit is called, or when the callback is closed.
+ *
+ * @param <T> the type of item to process
+ */
 class ExecutorBatchingCallback<T> extends BatchingCallback<T>
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecutorBatchingCallback.class);
 
+    /**
+     * Create an executor batching callback. It executes the callback on items whenever a batch is committed (see {@link BatchingCallback}).
+     * @param size how many items should be collected into a batch before committing
+     * @param executor the executor with which to execute the callback
+     * @param out the callback to process batches of items
+     * @param failFast whether the first error encountered should stop additional processing of items
+     */
     ExecutorBatchingCallback(int size, ExecutorService executor, Callback<? super List<T>> out, boolean failFast)
     {
         super(size, new ExecutorCallback<>(executor, out, failFast));
@@ -42,6 +55,12 @@ class ExecutorBatchingCallback<T> extends BatchingCallback<T>
         return result;
     }
 
+    /**
+     * A callback that wraps another callback and executes it with an executor service.
+     * Can be set to fail fast on the first processing exception and not process additional items.
+     *
+     * @param <T> the type of item to process
+     */
     static class ExecutorCallback<T> implements Callback<List<T>>
     {
         private final ExecutorCompletionService<Void> executor;
@@ -51,6 +70,12 @@ class ExecutorBatchingCallback<T> extends BatchingCallback<T>
         private final AtomicBoolean failed = new AtomicBoolean();
         private final boolean failFast;
 
+        /**
+         * Create an executor callback
+         * @param executor the executor to run the callback on
+         * @param out the callback to run
+         * @param failFast whether the first error encountered should stop additional processing
+         */
         ExecutorCallback(ExecutorService executor, Callback<? super List<T>> out, boolean failFast)
         {
             this.executor = new ExecutorCompletionService<Void>(executor);
@@ -86,6 +111,10 @@ class ExecutorBatchingCallback<T> extends BatchingCallback<T>
             }
         }
 
+        /**
+         * Let all the in flight requests finish processing
+         * Throws an exception when all in flight requests are done if any exceptions were encountered
+         */
         public void close()
         {
             while (inFlight.decrementAndGet() >= 0) {
@@ -106,11 +135,21 @@ class ExecutorBatchingCallback<T> extends BatchingCallback<T>
         }
     }
 
+    /**
+     * The callable to run via the executor
+     *
+     * @param <T> the type of item to process
+     */
     static class ExecutorCallable<T> implements Callable<Void>
     {
         private final Callback<? super List<T>> out;
         private final List<T> item;
 
+        /**
+         * Create the executor callable
+         * @param out the wrapped callback
+         * @param item the list of items to process when called
+         */
         ExecutorCallable(Callback<? super List<T>> out, List<T> item)
         {
             this.out = out;

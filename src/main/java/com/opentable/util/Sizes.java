@@ -25,6 +25,8 @@ public final class Sizes
     /**
      * Given a size in bytes, format as a pretty size string.
      * The output will look like "15.4 MB".
+     * @param size in bytes
+     * @return nicely formatted file size (e.g. 15.4 MB)
      */
     public static String formatSize(long count)
     {
@@ -34,6 +36,10 @@ public final class Sizes
     /**
      * Given a size in bytes and a duration, format as a pretty
      * throughput string.  The output will look like "15.4 MB/s".
+     * @param count size of data transfered
+     * @param time amount of time that data was transfered in
+     * @param units the unit time is measured in
+     * @return nicely formatted data rate (e.g. 15.4 MB/s)
      */
     public static String formatRate(long count, long time, TimeUnit units)
     {
@@ -45,6 +51,12 @@ public final class Sizes
     // User "aioobe" http://stackoverflow.com/users/276052/aioobe
     // http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
     // CC-BY-SA
+    /**
+     * Format byte size
+     * @param bytes number of bytes
+     * @param si whether to use SI units (as opposed to binary units, i.e. MB vs MiB)
+     * @return human readable byte count (e.g. 110.6 kB)
+     */
     private static String humanReadableByteCount(long bytes, boolean si) {
         int unit = si ? 1000 : 1024;
         if (bytes < unit) {

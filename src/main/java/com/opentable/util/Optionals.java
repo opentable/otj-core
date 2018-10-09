@@ -76,6 +76,11 @@ public class Optionals {
      */
     @FunctionalInterface
     public interface MapAdapter<K,V> {
+        /**
+         * Get item from map
+         * @param key the key to lookup
+         * @return an optional holding the value from the map, will be an empty optional if the map does not contain the key, or if it does but the value is null
+         */
         Optional<V> getOpt(K key);
     }
 
@@ -105,7 +110,7 @@ public class Optionals {
     /**
      * Adapter to create an Optional out of the first element of a List. If the list is empty, we get
      * an empty optional. Also, if the first element is null, return an empty optional.
-
+     *
      * @param <T> the type of objects in the list
      * @param list the list to look at
      * @return the possible first element in list

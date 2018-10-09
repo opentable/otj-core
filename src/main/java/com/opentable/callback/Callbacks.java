@@ -29,6 +29,8 @@ public class Callbacks {
     /**
      * For every element, invoke the given callback.
      * Stops if {@link CallbackRefusedException} is thrown.
+     * @param callback the callback to call for each item
+     * @param items item(s) to invoke the callback with
      */
     @SafeVarargs
     public static <T> void stream(Callback<T> callback, T... items) throws Exception
@@ -39,6 +41,8 @@ public class Callbacks {
     /**
      * For every element in the iterable, invoke the given callback.
      * Stops if {@link CallbackRefusedException} is thrown.
+     * @param callback the callback to invoke for each item
+     * @param iterable the list of ietms to invoke the callback with
      */
     public static <T> void stream(Callback<T> callback, Iterable<T> iterable) throws Exception
     {
@@ -66,6 +70,9 @@ public class Callbacks {
      */
     public static final Callback<Object> NOOP = new NoopCallback();
 
+    /**
+     * A callback that does nothing
+     */
     private static class NoopCallback implements Callback<Object>
     {
         @Override
@@ -74,6 +81,7 @@ public class Callbacks {
 
     /**
      * Combine multiple callbacks into a single callback, preserving order.
+     * @param callbacks the callbacks to combine into a single callback
      */
     @SafeVarargs
     public static <T> Callback<T> chain(Callback<T>... callbacks)
@@ -89,10 +97,19 @@ public class Callbacks {
         return new ChainCallback<T>(callbacks);
     }
 
+    /**
+     * A callback that executes a chain of callbacks
+     *
+     * @param <T> the type of item the callback processes
+     */
     private static class ChainCallback<T> implements Callback<T>
     {
         private final Iterable<Callback<T>> callbacks;
 
+        /**
+         * Create a chain callback
+         * @param callbacks the callbacks to call in order
+         */
         ChainCallback(Iterable<Callback<T>> callbacks)
         {
             this.callbacks = callbacks;

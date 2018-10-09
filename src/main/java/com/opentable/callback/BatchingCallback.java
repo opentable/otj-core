@@ -40,6 +40,14 @@ public class BatchingCallback<T> implements Callback<T>, Closeable
     private final Callback<? super List<T>> out;
     private final int size;
 
+    /**
+     * Create a batching callback. It allows you to add items of type T one at a time.
+     * We will "commit" and call the callback to process a batch of the items whenever
+     * the list reaches the given size, or when {@link commit} is called, or when this is closed.
+     *
+     * @param size the size of the queue. We'll call the callback whenever the queue reaches this size. Must be greater than 0.
+     * @param out the callback that we'll call with a batch of items to process. Cannot be null.
+     */
     BatchingCallback(int size, Callback<? super List<T>> out)
     {
         if (size <= 0) {
@@ -56,6 +64,9 @@ public class BatchingCallback<T> implements Callback<T>, Closeable
     /**
      * Collect {@code <T>} into a buffer, and invoke the given callback whenever
      * the buffer is full, during an explicit commit, or on close.
+     * @param size size of the buffer
+     * @param out callback to call with batches of items
+     * @return batching callback
      */
     public static <T> BatchingCallback<T> batchInto(int size, Callback<? super List<T>> out)
     {
@@ -68,6 +79,12 @@ public class BatchingCallback<T> implements Callback<T>, Closeable
      * {@link BatchingCallbackExecutionException} is thrown when the BatchingCallback is {@link #commit()}ed.
      * It suppresses all of the other thrown exceptions.  If failFast is true and an exception is thrown, it
      * is rethrown as soon as it is noticed and further invocations will generate {@link CallbackRefusedException}.
+     *
+     * @param size the size of the buffer
+     * @param executor the executor to run the callback on
+     * @param out the callback to pass batches of items to on commit
+     * @param failFast rethrow the first exception encountered and throw error for all future invocations if true,
+     *  if false we only throw one exception at the end that contains all the other exceptions
      */
     public static <T> BatchingCallback<T> batchInto(int size, ExecutorService executor, Callback<? super List<T>> out, boolean failFast)
     {
@@ -76,6 +93,7 @@ public class BatchingCallback<T> implements Callback<T>, Closeable
 
     /**
      * Add an item to the buffer.  May cause a commit if the buffer is full.
+     * @param item to add to the buffer
      * @throws CallbackRefusedException if the delegate throws.
      */
     @Override
@@ -109,6 +127,10 @@ public class BatchingCallback<T> implements Callback<T>, Closeable
         }
     }
 
+    /**
+     * Get the callback that we are using
+     * @return the callback
+     */
     Callback<? super List<T>> getOut()
     {
         return out;

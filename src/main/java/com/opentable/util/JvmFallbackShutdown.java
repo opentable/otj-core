@@ -75,6 +75,12 @@ public class JvmFallbackShutdown {
         System.exit(254);
     }
 
+    /**
+     * Determine if this is being run as part of a test execution.
+     * This is done by seeing if surefire or junit is in the stacktrace
+     * @param source the exception to use to check if this is part of a test execution
+     * @return true if this is probably part of a test execution
+     */
     static boolean inTests(Throwable source) {
         return Arrays.stream(source.getStackTrace())
             .anyMatch(e -> e.getClassName().contains("surefire.booter.ForkedBooter") ||

@@ -13,6 +13,9 @@
  */
 package com.opentable.callback;
 
+/**
+ * Exception while executing callback
+ */
 public class BatchingCallbackExecutionException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;

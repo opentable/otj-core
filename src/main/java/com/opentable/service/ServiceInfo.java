@@ -20,5 +20,11 @@ package com.opentable.service;
  * service.  You are expected to implement your own implementations of this interface when defining your Bean.
  */
 public interface ServiceInfo {
+
+    /**
+     * The name of the service (e.g. "my-service"). This is used for metrics and discovery.
+     *
+     * @return the service name
+     */
     String getName();
 }

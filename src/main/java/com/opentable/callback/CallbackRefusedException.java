@@ -22,20 +22,42 @@ public class CallbackRefusedException extends Exception
 {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Create a CallbackRefusedException to signal that the caller should stop
+     * processing data (and therefore calling the callback method).
+     */
     public CallbackRefusedException()
     {
     }
 
+    /**
+     * Create a CallbackRefusedException to signal that the caller should stop
+     * processing data (and therefore calling the callback method).
+     * @param e the underlying issue that is causing is stop processing data
+     */
     public CallbackRefusedException(final Exception e)
     {
         super(e);
     }
 
+    /**
+     * Create a CallbackRefusedException to signal that the caller should stop
+     * processing data (and therefore calling the callback method).
+     * @param message the error message template string, formatted by passing it and args to {@link String#format(String, Object...)}
+     * @param args the args to pass to {@link String#format(String, Object...)} together with the message template to create the error message
+     */
     public CallbackRefusedException(final String message, final Object [] args)
     {
         super(String.format(message, args));
     }
 
+    /**
+     * Create a CallbackRefusedException to signal that the caller should stop
+     * processing data (and therefore calling the callback method).
+     * @param e the underlying issue that is causing is stop processing data
+     * @param message the error message template string, formatted by passing it and args to {@link String#format(String, Object...)}
+     * @param args the args to pass to {@link String#format(String, Object...)} together with the message template to create the error message
+     */
     public CallbackRefusedException(final Exception e, final String message, final Object [] args)
     {
         super(String.format(message, args), e);

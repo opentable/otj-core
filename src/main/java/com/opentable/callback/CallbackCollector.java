@@ -34,6 +34,12 @@ public class CallbackCollector<T> implements Callback<T> {
         collected.add(item);
     }
 
+    /**
+     * Get all the items passed into the callback.
+     * This is a synchronized mutable list.
+     *
+     * @return all the items passed into the callback
+     */
     public List<T> getItems() {
         return collected;
     }

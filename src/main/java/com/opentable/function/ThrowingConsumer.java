@@ -13,7 +13,21 @@
  */
 package com.opentable.function;
 
+import java.util.function.Consumer;
+
+/**
+ * A {@link Consumer}, i.e. a function that takes in an input and return no results that can throw a checked exception
+ *
+ * @param <T> the type of item to take in as input
+ */
 @FunctionalInterface
 public interface ThrowingConsumer<T> {
+
+    /**
+     * Performs this operation on the given argument.
+     *
+     * @param t the input argument
+     * @throws Exception an exception performing the operation
+     */
     void accept(T t) throws Exception;
 }

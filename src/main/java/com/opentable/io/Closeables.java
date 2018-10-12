@@ -19,10 +19,19 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Utility methods for dealing with {@link Closeable}s
+ */
 public class Closeables
 {
     private static final Logger LOG = LoggerFactory.getLogger(Closeables.class);
 
+    /**
+     * Create a {@link Runnable} that when run closes the provided {@link Closeable}.
+     * If an {@link IOException} is thrown while closing, it'll be caught and logged.
+     * @param c the closeable to close when the runnable is run
+     * @return a runnable that when run closes the closable
+     */
     public static Runnable closeAsRunnable(Closeable c)
     {
         return () -> {

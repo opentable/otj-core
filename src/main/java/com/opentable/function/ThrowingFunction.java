@@ -13,7 +13,23 @@
  */
 package com.opentable.function;
 
+import java.util.function.Function;
+
+/**
+ * An alternative to {@link Function} that throws a checked {@link Exception}
+ *
+ * @param <A> the type of the input to the function
+ * @param <B> the type of the result of the function
+ */
 @FunctionalInterface
 public interface ThrowingFunction<A, B> {
+
+    /**
+     * Applies this function to the given argument.
+     *
+     * @param item the function argument
+     * @return the function result
+     * @throws Exception an issue applying the function
+     */
     B apply(A item) throws Exception;
 }

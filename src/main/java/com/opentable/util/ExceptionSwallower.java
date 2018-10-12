@@ -30,7 +30,9 @@ public class ExceptionSwallower
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionSwallower.class);
 
     /**
-     * Transform a Runnable to log and then swallow any thrown exceptions.
+     * Transform a Runnable to log and then swallow any thrown exceptions. However, {@link Error}s are still re-thrown.
+     * @param in the runnable to wrap
+     * @return a runnable that will swallow exceptions
      */
     public static Runnable swallowExceptions(Runnable in)
     {
@@ -49,7 +51,9 @@ public class ExceptionSwallower
     }
 
     /**
-     * Transform a Consumer to log and then swallow any thrown exceptions.
+     * Transform a Consumer to log and then swallow any thrown exceptions. However, {@link Error}s are still re-thrown.
+     * @param in a consumer that may throw exceptions
+     * @return a consumer that swallows exceptions
      */
     public static <T> Consumer<T> swallowExceptions(ThrowingConsumer<T> in)
     {
@@ -69,7 +73,9 @@ public class ExceptionSwallower
 
     /**
      * Transform a Function to log and then swallow any thrown exceptions.
-     * If an exception is swallowed, return null.
+     * If an exception is swallowed, return null. However, {@link Error}s are still re-thrown.
+     * @param in the function to wrap
+     * @return a function that swallows exceptions (logging them and returning null)
      */
     public static <A, B> Function<A, B> forFunction(ThrowingFunction<A, B> in)
     {

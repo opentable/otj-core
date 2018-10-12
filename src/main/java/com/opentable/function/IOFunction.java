@@ -15,8 +15,20 @@ package com.opentable.function;
 
 import java.io.IOException;
 
+/**
+ * A function that takes in input and produces output, potentially throwing an IO exception
+ *
+ * @param <In> the input type
+ * @param <Out> the output type
+ */
 @FunctionalInterface
 public interface IOFunction<In, Out>
 {
+    /**
+     * Apply the function to take in input and produce output
+     * @param in the input
+     * @return the output
+     * @throws IOException a I/O exception processing the input/output
+     */
     Out apply(In in) throws IOException;
 }

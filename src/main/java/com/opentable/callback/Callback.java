@@ -13,6 +13,11 @@
  */
 package com.opentable.callback;
 
+/**
+ * A function to execute as a callback
+ *
+ * @param <T> the type of item the callback processes
+ */
 @FunctionalInterface
 public interface Callback<T>
 {
@@ -22,7 +27,7 @@ public interface Callback<T>
      * An implementation of this interface can throw {@link CallbackRefusedException} to signal the caller
      * that it should stop executing the callback.
      *
-     * @throws Exception
+     * @throws Exception an exception while processing the item
      */
     void call(T item) throws Exception;
 }

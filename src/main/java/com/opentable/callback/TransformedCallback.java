@@ -15,6 +15,15 @@ package com.opentable.callback;
 
 import com.google.common.base.Function;
 
+/**
+ * A callback that can process an item of type A,
+ * by first using a provided transformer to transform
+ * it from A to B and then executing a given callback
+ * processes type B
+ *
+ * @param <A> the type of item to process
+ * @param <B> the type of item processed by the provided callback
+ */
 public class TransformedCallback<A, B> implements Callback<A>
 {
     private final Callback<? super B> callback;
@@ -23,12 +32,22 @@ public class TransformedCallback<A, B> implements Callback<A>
     /**
      * Create a new Callback which transforms its items according to a {@link Function}
      * and then invokes the original callback.
+     * @param callback the callback that processes items of type B
+     * @param transformer the transformer that converts the item from type A to type B
+     * @param <A> the type of item that will be provided as input
+     * @param <B> the type of item processed by the provided callback
      */
     public static <A, B> Callback<A> transform(Callback<? super B> callback, Function<? super A, ? extends B> transformer)
     {
         return new TransformedCallback<A, B>(callback, transformer);
     }
 
+    /**
+     * Create a new Callback which transforms its items according to a {@link Function}
+     * and then invokes the original callback.
+     * @param callback the callback that processes items of type B
+     * @param transformer the transformer that converts the item from type A to type B
+     */
     TransformedCallback(Callback<? super B> callback, Function<? super A, ? extends B> transformer)
     {
         this.callback = callback;

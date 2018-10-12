@@ -25,6 +25,10 @@ public class CountingCallback implements Callback<Object> {
 
     private final AtomicLong count = new AtomicLong();
 
+    /**
+     * Get the amount of times the callback has been called
+     * @return the count of items processed
+     */
     public long getCount() {
         return count.get();
     }

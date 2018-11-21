@@ -22,9 +22,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Utility methods for dealing with {@link Closeable}s
  */
-public class Closeables
+public final class Closeables
 {
     private static final Logger LOG = LoggerFactory.getLogger(Closeables.class);
+
+    private Closeables() { }
 
     /**
      * Create a {@link Runnable} that when run closes the provided {@link Closeable}.

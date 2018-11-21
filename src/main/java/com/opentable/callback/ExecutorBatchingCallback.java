@@ -93,8 +93,8 @@ class ExecutorBatchingCallback<T> extends BatchingCallback<T>
             inFlight.incrementAndGet();
             executor.submit(new ExecutorCallable<T>(out, item));
 
-            Future<Void> f;
-            while ( (f = executor.poll()) != null ) {
+            Future<Void> f = executor.poll();
+            while (f != null) {
                 inFlight.decrementAndGet();
                 try {
                     f.get();
@@ -108,6 +108,7 @@ class ExecutorBatchingCallback<T> extends BatchingCallback<T>
                         throw exceptions;
                     }
                 }
+                f = executor.poll();
             }
         }
 

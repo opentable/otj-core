@@ -25,9 +25,13 @@ import com.opentable.function.ThrowingFunction;
 /**
  * Transformations for various functional interfaces to modify exceptional behavior.
  */
-public class ExceptionSwallower
+// n.b. The entire purpose of this class is to swallow exceptions, so the following PMD suppression is warranted.
+@SuppressWarnings({"PMD.AvoidCatchingThrowable", "PMD.AvoidInstanceofChecksInCatchClause"})
+public final class ExceptionSwallower
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionSwallower.class);
+
+    private ExceptionSwallower() { }
 
     /**
      * Transform a Runnable to log and then swallow any thrown exceptions. However, {@link Error}s are still re-thrown.
@@ -43,8 +47,6 @@ public class ExceptionSwallower
                 LOGGER.error("Uncaught exception swallowed", t);
                 if (t instanceof Error) {
                     throw t;
-                } else if (t instanceof InterruptedException) {
-                    Thread.currentThread().interrupt();
                 }
             }
         };
@@ -60,12 +62,13 @@ public class ExceptionSwallower
         return (item) -> {
             try {
                 in.accept(item);
+            } catch (InterruptedException e) {
+                LOGGER.error("Uncaught interruption swallowed", e);
+                Thread.currentThread().interrupt();
             } catch (Throwable t) {
                 LOGGER.error("Uncaught exception swallowed", t);
                 if (t instanceof Error) {
                     throw (Error) t;
-                } else if (t instanceof InterruptedException) {
-                    Thread.currentThread().interrupt();
                 }
             }
         };
@@ -82,12 +85,13 @@ public class ExceptionSwallower
         return (item) -> {
             try {
                 return in.apply(item);
+            } catch (InterruptedException e) {
+                LOGGER.error("Uncaught interruption swallowed", e);
+                Thread.currentThread().interrupt();
             } catch (Throwable t) {
                 LOGGER.error("Uncaught exception swallowed", t);
                 if (t instanceof Error) {
                     throw (Error) t;
-                } else if (t instanceof InterruptedException) {
-                    Thread.currentThread().interrupt();
                 }
             }
             return null;

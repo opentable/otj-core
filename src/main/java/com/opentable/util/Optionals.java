@@ -24,7 +24,10 @@ import javax.annotation.Nonnull;
 /**
  * Utility functions to help alternate values stay in optionals when evaluating the absent case.
  */
-public class Optionals {
+public final class Optionals {
+
+    private Optionals() { }
+
     /**
      * Provide approximation of scala's Option.orElse(=&gt;Y). For when you want to evaluate
      * alternate values when an optional value is absent, where the alternates are not Optionals,

@@ -25,25 +25,31 @@ import com.opentable.function.ThrowingFunction;
 /**
  * Transformations for various functional interfaces to modify exceptional behavior.
  */
-public class ExceptionSwallower
+public final class ExceptionSwallower
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionSwallower.class);
 
+    private ExceptionSwallower() {
+        /* utility class */
+    }
     /**
      * Transform a Runnable to log and then swallow any thrown exceptions. However, {@link Error}s are still re-thrown.
      * @param in the runnable to wrap
      * @return a runnable that will swallow exceptions
      */
+    @SuppressWarnings({"PMD.AvoidCatchingThrowable","PMD.AvoidInstanceofChecksInCatchClause"})
     public static Runnable swallowExceptions(Runnable in)
     {
         return () -> {
             try {
                 in.run();
+            } catch (Error tt) {
+                LOGGER.error("Error (will be rethrown)", tt);
+                throw tt;
             } catch (Throwable t) {
                 LOGGER.error("Uncaught exception swallowed", t);
-                if (t instanceof Error) {
-                    throw t;
-                } else if (t instanceof InterruptedException) {
+                // Ignore the IDE warning - consider Lombok's SneakyThrows, which is an abomination but heavily used by heathens, whom I pray for.
+                if (t instanceof InterruptedException) {
                     Thread.currentThread().interrupt();
                 }
             }
@@ -55,18 +61,20 @@ public class ExceptionSwallower
      * @param in a consumer that may throw exceptions
      * @return a consumer that swallows exceptions
      */
+    @SuppressWarnings("PMD.AvoidCatchingThrowable")
     public static <T> Consumer<T> swallowExceptions(ThrowingConsumer<T> in)
     {
         return (item) -> {
             try {
                 in.accept(item);
+            } catch (InterruptedException e) {
+                LOGGER.warn("Interrupted exception", e);
+                Thread.currentThread().interrupt();
+            } catch (Error tt) {
+                LOGGER.error("Error (will be rethrown)", tt);
+                throw tt;
             } catch (Throwable t) {
                 LOGGER.error("Uncaught exception swallowed", t);
-                if (t instanceof Error) {
-                    throw (Error) t;
-                } else if (t instanceof InterruptedException) {
-                    Thread.currentThread().interrupt();
-                }
             }
         };
     }
@@ -77,18 +85,20 @@ public class ExceptionSwallower
      * @param in the function to wrap
      * @return a function that swallows exceptions (logging them and returning null)
      */
+    @SuppressWarnings("PMD.AvoidCatchingThrowable")
     public static <A, B> Function<A, B> forFunction(ThrowingFunction<A, B> in)
     {
         return (item) -> {
             try {
                 return in.apply(item);
+            } catch (InterruptedException e) {
+                LOGGER.warn("Interrupted exception", e);
+                Thread.currentThread().interrupt();
+            } catch (Error tt) {
+                LOGGER.error("Error (will be rethrown)", tt);
+                throw tt;
             } catch (Throwable t) {
                 LOGGER.error("Uncaught exception swallowed", t);
-                if (t instanceof Error) {
-                    throw (Error) t;
-                } else if (t instanceof InterruptedException) {
-                    Thread.currentThread().interrupt();
-                }
             }
             return null;
         };

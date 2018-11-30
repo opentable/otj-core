@@ -94,7 +94,7 @@ class ExecutorBatchingCallback<T> extends BatchingCallback<T>
             executor.submit(new ExecutorCallable<T>(out, item));
 
             Future<Void> f;
-            while ( (f = executor.poll()) != null ) {
+            while ( (f = executor.poll()) != null ) { //NOPMD
                 inFlight.decrementAndGet();
                 try {
                     f.get();

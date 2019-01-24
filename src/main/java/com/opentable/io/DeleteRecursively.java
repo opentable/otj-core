@@ -25,14 +25,16 @@ import java.nio.file.attribute.BasicFileAttributes;
  * A {@link FileVisitor} that deletes all files and directories recursively from it's starting point.
  * To use it call {@link Files#walkFileTree(Path, FileVisitor)} with a {@link Path} to start deleting from.
  */
-public class DeleteRecursively extends SimpleFileVisitor<Path>
+public final class DeleteRecursively extends SimpleFileVisitor<Path>
 {
     /**
      * Singleton instance of a {@link DeleteRecursively}.
      */
     public static final FileVisitor<Path> INSTANCE = new DeleteRecursively();
 
-    private DeleteRecursively() { }
+    private DeleteRecursively() {
+        /* utility class */
+    }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException

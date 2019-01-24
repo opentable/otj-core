@@ -18,8 +18,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.opentable</groupId>
-    <artifactId>otj-parent-oss</artifactId>
-    <version>154</version>
+    <artifactId>otj-parent-spring</artifactId>
+    <version>183-SNAPSHOT</version>
   </parent>
 
   <scm>
@@ -34,6 +34,12 @@
   <version>1.6.1-SNAPSHOT</version>
   <description>OpenTable base types component</description>
 
+  <properties>
+    <basepom.oss.skip-scala-doc>true</basepom.oss.skip-scala-doc>
+    <basepom.check.skip-javadoc>false</basepom.check.skip-javadoc>
+    <basepom.check.fail-javadoc>false</basepom.check.fail-javadoc>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -43,7 +49,6 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>23.5-jre</version>
       <optional>true</optional>
     </dependency>
 

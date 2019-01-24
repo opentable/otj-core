@@ -27,8 +27,12 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * Utility class to log orphaned threads that do not shut down cleanly.
  */
-public class JvmFallbackShutdown {
+public final class JvmFallbackShutdown {
     private static final Logger LOG = LoggerFactory.getLogger(JvmFallbackShutdown.class);
+
+    private JvmFallbackShutdown() {
+        /* utility class */
+    }
 
     /**
      * Spawn a background thread which will wait for the specified time, then print out any
@@ -52,6 +56,7 @@ public class JvmFallbackShutdown {
     }
 
     @SuppressFBWarnings("DM_EXIT")
+    @SuppressWarnings("PMD.DoNotCallSystemExit")
     private static void fallbackKill(Duration waitTime, Throwable source) {
         LOG.info("Service problem detected, fallback kill in {}...", waitTime.toString().substring(2));
         try {

@@ -89,6 +89,6 @@ public final class JvmFallbackShutdown {
     static boolean inTests(Throwable source) {
         return Arrays.stream(source.getStackTrace())
             .anyMatch(e -> e.getClassName().contains("surefire.booter.ForkedBooter") ||
-                           e.getClassName().contains("org.junit"));
+                           e.getClassName().contains("org.junit.runner"));
     }
 }

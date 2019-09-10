@@ -96,7 +96,7 @@ public final class Optionals {
      */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static <A, B, C> Optional<C> combineWith(Optional<A> oa, Optional<B> ob, BiFunction<A, B, C> combiner) {
-        return oa.flatMap(a -> ob.map(b -> combiner.apply(a, b)));
+        return map2(oa, ob, combiner);
     }
 
     /**

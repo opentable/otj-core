@@ -92,6 +92,14 @@ public final class Optionals {
     }
 
     /**
+     * Alias of {@link #map2(Optional, Optional, BiFunction)}
+     */
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static <A, B, C> Optional<C> combineWith(Optional<A> oa, Optional<B> ob, BiFunction<A, B, C> combiner) {
+        return oa.flatMap(a -> ob.map(b -> combiner.apply(a, b)));
+    }
+
+    /**
      * When wrapped around a Map, allows get() operations to produce an Optional rather than a Nullable
      * @param <K> type of map keys
      * @param <V> type of map values

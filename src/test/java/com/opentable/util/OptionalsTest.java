@@ -87,5 +87,7 @@ public class OptionalsTest {
                 Optionals.map2(Optional.of(3), Optional.empty(), prependIntegerToString));
         assertEquals(Optional.of("3foo"),
                 Optionals.map2(Optional.of(3), Optional.of("foo"), prependIntegerToString));
+        assertEquals(Optional.of("3foo"), // alias of map2
+                Optionals.combineWith(Optional.of(3), Optional.of("foo"), prependIntegerToString));
     }
 }

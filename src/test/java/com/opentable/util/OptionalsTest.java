@@ -20,6 +20,8 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.util.function.BiFunction;
+
 public class OptionalsTest {
     @Test
     public void unless_returnLeftIfPresent() {
@@ -71,5 +73,19 @@ public class OptionalsTest {
         });
         assertEquals(Integer.valueOf(3), result.get());
         assertFalse(hit[0]);
+    }
+
+    @Test
+    public void map2_severalScenarios() {
+        BiFunction<Integer, String, String> prependIntegerToString = (i, s) -> i + s;
+
+        assertEquals(Optional.empty(),
+                Optionals.map2(Optional.empty(), Optional.empty(), prependIntegerToString));
+        assertEquals(Optional.empty(),
+                Optionals.map2(Optional.empty(), Optional.of("foo"), prependIntegerToString));
+        assertEquals(Optional.empty(),
+                Optionals.map2(Optional.of(3), Optional.empty(), prependIntegerToString));
+        assertEquals(Optional.of("3foo"),
+                Optionals.map2(Optional.of(3), Optional.of("foo"), prependIntegerToString));
     }
 }

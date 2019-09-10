@@ -16,6 +16,7 @@ package com.opentable.util;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -72,6 +73,22 @@ public final class Optionals {
      */
     public static <X> Optional<X> unlessOpt(@Nonnull Optional<X> first, Supplier<Optional<X>> second) {
         return first.isPresent() ? first : second.get();
+    }
+
+    /**
+     * Combines two optionals to get a third one based on the values of the given ones if they are present.
+     * @param oa First optional.
+     * @param ob Second optional.
+     * @param combiner Function that combines the values of the given optionals.
+     * @param <A> type of first optional.
+     * @param <B> type of the second optional.
+     * @param <C> return type of the combiner function.
+     * @return The combined result wrapped into an optional if values of both optionals are present.
+     *         Optional.empty() otherwise.
+     */
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static <A, B, C> Optional<C> map2(Optional<A> oa, Optional<B> ob, BiFunction<A, B, C> combiner) {
+        return oa.flatMap(a -> ob.map(b -> combiner.apply(a, b)));
     }
 
     /**

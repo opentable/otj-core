@@ -1,6 +1,10 @@
 otj-core
 ========
 
+1.6.3
+-----
+* Added Optionals.combineWith() to combine two optionals with a combiner function if both are present.
+
 1.6.2
 -----
 * Update Parent, fix various PMD warnings

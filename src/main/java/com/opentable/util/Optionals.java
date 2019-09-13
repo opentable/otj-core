@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 /**
  * Utility functions to help alternate values stay in optionals when evaluating the absent case.
  */
+@SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "WeakerAccess"})
 public final class Optionals {
 
     private Optionals() {
@@ -80,23 +81,14 @@ public final class Optionals {
      * @param oa First optional.
      * @param ob Second optional.
      * @param combiner Function that combines the values of the given optionals.
-     * @param <A> type of first optional.
-     * @param <B> type of the second optional.
-     * @param <C> return type of the combiner function.
+     * @param <X> type of first optional.
+     * @param <Y> type of the second optional.
+     * @param <Z> return type of the combiner function.
      * @return The combined result wrapped into an optional if values of both optionals are present.
      *         Optional.empty() otherwise.
      */
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static <A, B, C> Optional<C> map2(Optional<A> oa, Optional<B> ob, BiFunction<A, B, C> combiner) {
-        return oa.flatMap(a -> ob.map(b -> combiner.apply(a, b)));
-    }
-
-    /**
-     * Alias of {@link #map2(Optional, Optional, BiFunction)}
-     */
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static <A, B, C> Optional<C> combineWith(Optional<A> oa, Optional<B> ob, BiFunction<A, B, C> combiner) {
-        return map2(oa, ob, combiner);
+    public static <X, Y, Z> Optional<Z> combineWith(Optional<X> oa, Optional<Y> ob, BiFunction<X, Y, Z> combiner) {
+        return oa.flatMap(x -> ob.map(y -> combiner.apply(x, y)));
     }
 
     /**

@@ -78,8 +78,8 @@ public final class Optionals {
 
     /**
      * Combines two optionals to get a third one based on the values of the given ones if they are present.
-     * @param oa First optional.
-     * @param ob Second optional.
+     * @param ox First optional.
+     * @param oy Second optional.
      * @param combiner Function that combines the values of the given optionals.
      * @param <X> type of first optional.
      * @param <Y> type of the second optional.
@@ -87,8 +87,8 @@ public final class Optionals {
      * @return The combined result wrapped into an optional if values of both optionals are present.
      *         Optional.empty() otherwise.
      */
-    public static <X, Y, Z> Optional<Z> combineWith(Optional<X> oa, Optional<Y> ob, BiFunction<X, Y, Z> combiner) {
-        return oa.flatMap(x -> ob.map(y -> combiner.apply(x, y)));
+    public static <X, Y, Z> Optional<Z> combineWith(Optional<X> ox, Optional<Y> oy, BiFunction<X, Y, Z> combiner) {
+        return ox.flatMap(x -> oy.map(y -> combiner.apply(x, y)));
     }
 
     /**

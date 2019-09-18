@@ -13,12 +13,13 @@
  */
 package com.opentable.util;
 
-import org.junit.Test;
-
-import java.util.Optional;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+
+import java.util.Optional;
+import java.util.function.BiFunction;
+
+import org.junit.Test;
 
 public class OptionalsTest {
     @Test
@@ -71,5 +72,19 @@ public class OptionalsTest {
         });
         assertEquals(Integer.valueOf(3), result.get());
         assertFalse(hit[0]);
+    }
+
+    @Test
+    public void combineWith_severalScenarios() {
+        BiFunction<Integer, String, String> prependIntegerToString = (i, s) -> i + s;
+
+        assertEquals(Optional.empty(),
+                Optionals.combineWith(Optional.empty(), Optional.empty(), prependIntegerToString));
+        assertEquals(Optional.empty(),
+                Optionals.combineWith(Optional.empty(), Optional.of("foo"), prependIntegerToString));
+        assertEquals(Optional.empty(),
+                Optionals.combineWith(Optional.of(3), Optional.empty(), prependIntegerToString));
+        assertEquals(Optional.of("3foo"),
+                Optionals.combineWith(Optional.of(3), Optional.of("foo"), prependIntegerToString));
     }
 }

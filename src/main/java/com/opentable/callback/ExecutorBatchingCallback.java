@@ -78,7 +78,7 @@ class ExecutorBatchingCallback<T> extends BatchingCallback<T>
          */
         ExecutorCallback(ExecutorService executor, Callback<? super List<T>> out, boolean failFast)
         {
-            this.executor = new ExecutorCompletionService<Void>(executor);
+            this.executor = new ExecutorCompletionService<>(executor);
             this.out = out;
             this.failFast = failFast;
         }

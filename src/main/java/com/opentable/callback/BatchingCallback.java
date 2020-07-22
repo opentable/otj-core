@@ -138,7 +138,7 @@ public class BatchingCallback<T> implements Callback<T>, Closeable
 
     private void commitInternal() throws CallbackRefusedException
     {
-        final List<T> outList = new ArrayList<T>(size);
+        final List<T> outList = new ArrayList<>(size);
         list.drainTo(outList);
         if (!outList.isEmpty()) {
             try {

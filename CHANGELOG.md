@@ -1,6 +1,11 @@
 otj-core
 ========
 
+5.2.0
+-----
+* Rebuild for Spring 5.2
+
+
 1.6.3
 -----
 * Added Optionals.combineWith() to combine two optionals with a combiner function if both are present.

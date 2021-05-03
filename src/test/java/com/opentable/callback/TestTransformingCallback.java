@@ -16,16 +16,11 @@ package com.opentable.callback;
 import static com.opentable.callback.TransformedCallback.transform;
 import static org.junit.Assert.assertEquals;
 
-import javax.annotation.Nullable;
-
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
 
 import org.junit.Test;
-
-import com.opentable.callback.Callback;
-import com.opentable.callback.CallbackCollector;
 
 public class TestTransformingCallback
 {
@@ -35,8 +30,7 @@ public class TestTransformingCallback
         CallbackCollector<String> callback = new CallbackCollector<>();
         Callback<Integer> tested = transform(callback, new Function<Integer, String>() {
             @Override
-            @Nullable
-            public String apply(@Nullable Integer input)
+            public String apply(Integer input)
             {
                 return input == null ? null : Integer.toHexString(input);
             }
@@ -46,22 +40,30 @@ public class TestTransformingCallback
         tested.call(15);
         tested.call(0xDEADBEEF);
 
-        assertEquals(Lists.newArrayList(null, "f", "deadbeef"), callback.getItems());
+        List<String> expected = new ArrayList<>();
+        expected.add(null);
+        expected.add("f");
+        expected.add("deadbeef");
+        assertEquals(expected, callback.getItems());
     }
 
     @Test
     public void testWildcards() throws Exception
     {
         CallbackCollector<Object> callback = new CallbackCollector<>();
-        Callback<String> strCallback = transform(callback, Functions.toStringFunction());
+        Callback<String> strCallback = transform(callback, new Function<String, String>() {
+            @Override
+            public String apply(String s) {
+                return s.toString();
+            }
+        });
 
         strCallback.call("foo");
         strCallback.call("bar");
 
         Function<Super, Class<?>> superFunction = new Function<Super, Class<?>>() {
             @Override
-            @Nullable
-            public Class<?> apply(@Nullable Super input)
+            public Class<?> apply(Super input)
             {
                 return input.getClass();
             }
@@ -74,7 +76,13 @@ public class TestTransformingCallback
         superCallback.call(new Sub());
         subCallback.call(new Sub());
 
-        assertEquals(Lists.newArrayList("foo", "bar", Super.class, Sub.class, Sub.class), callback.getItems());
+        List<Object> weird = new ArrayList<>();
+        weird.add("foo");
+        weird.add("bar");
+        weird.add(Super.class);
+        weird.add(Sub.class);
+        weird.add(Sub.class);
+        assertEquals(weird, callback.getItems());
     }
 
     static class Super { }

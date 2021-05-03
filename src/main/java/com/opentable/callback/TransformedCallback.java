@@ -13,7 +13,8 @@
  */
 package com.opentable.callback;
 
-import com.google.common.base.Function;
+
+import java.util.function.Function;
 
 /**
  * A callback that can process an item of type A,

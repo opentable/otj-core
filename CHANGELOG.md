@@ -1,6 +1,10 @@
 otj-core
 ========
 
+5.2.1
+-----
+* Remove Guava, except for a test class.
+
 5.2.0
 -----
 * Rebuild for Spring 5.2

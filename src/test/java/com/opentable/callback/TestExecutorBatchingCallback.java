@@ -13,12 +13,14 @@
  */
 package com.opentable.callback;
 
-import static com.google.common.collect.ImmutableList.of;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+
 import java.util.List;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,8 +29,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import org.junit.Test;
 
 public class TestExecutorBatchingCallback {
-
-    private final ExecutorService directExecutor = MoreExecutors.newDirectExecutorService();
+    private ExecutorService directExecutor = MoreExecutors.newDirectExecutorService();
 
     @Test
     public void testGood() throws Exception
@@ -45,6 +46,22 @@ public class TestExecutorBatchingCallback {
         batcher.commit();
 
         assertEquals(of(of("a", "b"), of("c", "d"), of("e")), out.getItems());
+    }
+
+    private List<List<String>> of(List<String>... lists) {
+        List<List<String>> listy = new ArrayList<>();
+        for (List<String> list : lists) {
+            listy.add(list);
+        }
+        return listy;
+    }
+
+    List<String> of(String... strings) {
+        List<String> s = new ArrayList<>();
+        for (String ss : strings) {
+            s.add(ss);
+        }
+        return s;
     }
 
     @Test

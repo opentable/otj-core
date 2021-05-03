@@ -13,21 +13,15 @@
  */
 package com.opentable.callback;
 
-import static com.google.common.collect.ImmutableList.of;
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.common.collect.Lists;
 
 import org.junit.Test;
 
-import com.opentable.callback.BatchingCallback;
-import com.opentable.callback.Callback;
-import com.opentable.callback.CallbackCollector;
-import com.opentable.callback.CallbackRefusedException;
-import com.opentable.callback.Callbacks;
 
 public class TestBatchingCallback
 {
@@ -53,10 +47,26 @@ public class TestBatchingCallback
             ), collector.getItems());
     }
 
+    private List<List<String>> of(List<String>... lists) {
+        List<List<String>> listy = new ArrayList<>();
+        for (List<String> list : lists) {
+            listy.add(list);
+        }
+        return listy;
+    }
+
+    public static List<String> of(String... strings) {
+        List<String> s = new ArrayList<>();
+        for (String ss : strings) {
+            s.add(ss);
+        }
+        return s;
+    }
+
     @Test
     public void testCallbackRefused() throws Exception
     {
-        final List<Collection<String>> items = Lists.newArrayList();
+        final List<Collection<String>> items = new ArrayList<>();
         Callback<Collection<String>> callback = new Callback<Collection<String>>() {
             @Override
             public void call(Collection<String> item) throws Exception

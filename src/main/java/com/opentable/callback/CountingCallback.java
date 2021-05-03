@@ -15,12 +15,10 @@ package com.opentable.callback;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * A Callback that throws away all objects but counts them as it does so.
  */
-@ThreadSafe
 public class CountingCallback implements Callback<Object> {
 
     private final AtomicLong count = new AtomicLong();

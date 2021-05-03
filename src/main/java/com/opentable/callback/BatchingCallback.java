@@ -20,8 +20,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 
-import com.google.common.base.Throwables;
-
 /**
  * Collect incoming items into batches of a fixed size, and invoke
  * a delegate callback whenever a complete batch is available.
@@ -34,6 +32,7 @@ import com.google.common.base.Throwables;
  * }
  * </pre>
  */
+@SuppressWarnings("PMD.AvoidRethrowingException")
 public class BatchingCallback<T> implements Callback<T>, Closeable
 {
     private final BlockingQueue<T> list;
@@ -43,7 +42,7 @@ public class BatchingCallback<T> implements Callback<T>, Closeable
     /**
      * Create a batching callback. It allows you to add items of type T one at a time.
      * We will "commit" and call the callback to process a batch of the items whenever
-     * the list reaches the given size, or when {@link commit} is called, or when this is closed.
+     * the list reaches the given size, or when commit is called, or when this is closed.
      *
      * @param size the size of the queue. We'll call the callback whenever the queue reaches this size. Must be greater than 0.
      * @param out the callback that we'll call with a batch of items to process. Cannot be null.
@@ -143,8 +142,12 @@ public class BatchingCallback<T> implements Callback<T>, Closeable
         if (!outList.isEmpty()) {
             try {
                 out.call(outList);
+            } catch (final CallbackRefusedException | RuntimeException e) {
+                throw e;
+            } catch (final InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
             } catch (final Exception e) {
-                Throwables.propagateIfPossible(e, CallbackRefusedException.class);
                 throw new RuntimeException(e);
             }
         }

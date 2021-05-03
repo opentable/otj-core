@@ -20,7 +20,6 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
 
 /**
  * Utility functions to help alternate values stay in optionals when evaluating the absent case.
@@ -49,7 +48,7 @@ public final class Optionals {
      *
      * @return first if first is present, otherwise the supplier is evaluated (see example above)
      */
-    public static <X> Optional<X> unless(@Nonnull Optional<X> first, Supplier<X> second) {
+    public static <X> Optional<X> unless(Optional<X> first, Supplier<X> second) {
         return first.isPresent() ? first : Optional.of(second.get());
     }
 
@@ -72,7 +71,7 @@ public final class Optionals {
      * @param <X> type of value specified contained in first's Optional.
      * @return if first is present, otherwise the supplier is evaluated (see example above).
      */
-    public static <X> Optional<X> unlessOpt(@Nonnull Optional<X> first, Supplier<Optional<X>> second) {
+    public static <X> Optional<X> unlessOpt(Optional<X> first, Supplier<Optional<X>> second) {
         return first.isPresent() ? first : second.get();
     }
 

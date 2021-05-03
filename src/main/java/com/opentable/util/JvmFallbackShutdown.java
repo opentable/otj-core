@@ -16,13 +16,10 @@ package com.opentable.util;
 import java.lang.Thread.State;
 import java.time.Duration;
 import java.util.Arrays;
-
-import com.google.common.base.Joiner;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Utility class to log orphaned threads that do not shut down cleanly.
@@ -55,7 +52,6 @@ public final class JvmFallbackShutdown {
         fallbackTerminateThread.start();
     }
 
-    @SuppressFBWarnings("DM_EXIT")
     @SuppressWarnings("PMD.DoNotCallSystemExit")
     private static void fallbackKill(Duration waitTime, Throwable source) {
         LOG.info("Service problem detected, fallback kill in {}...", waitTime.toString().substring(2));
@@ -73,11 +69,18 @@ public final class JvmFallbackShutdown {
             .filter(e -> e.getKey().getState() != State.TERMINATED)
             .forEach(e -> {
                 final Thread t = e.getKey();
-                LOG.error("Thread {} {} '{}': \n{}\n", t.getId(), t.getState(), t.getName(), Joiner.on('\n').join(e.getValue()));
+                LOG.error("Thread {} {} '{}': \n{}\n", t.getId(), t.getState(), t.getName(), join(e.getValue()));
         });
         LOG.error("===UNCLEAN SHUTDOWN===");
 
         System.exit(254);
+    }
+
+    private static String join(StackTraceElement[] value) {
+        if (value == null) {
+            return "";
+        }
+        return Arrays.stream(value).map(StackTraceElement::toString).collect(Collectors.joining("\n"));
     }
 
     /**

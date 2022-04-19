@@ -56,7 +56,7 @@ public final class JvmFallbackShutdown {
     }
 
     @SuppressFBWarnings("DM_EXIT")
-    @SuppressWarnings("PMD.DoNotCallSystemExit")
+    @SuppressWarnings( {"PMD.DoNotCallSystemExit", "PMD.DoNotTerminateVM"} )
     private static void fallbackKill(Duration waitTime, Throwable source) {
         LOG.info("Service problem detected, fallback kill in {}...", waitTime.toString().substring(2));
         try {

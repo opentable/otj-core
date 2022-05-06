@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Callback helper methods
  */
-public class Callbacks {
+public final class Callbacks {
     private static final Logger LOG = LoggerFactory.getLogger(Callbacks.class);
 
     private Callbacks() { }
